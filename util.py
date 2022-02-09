@@ -2,7 +2,10 @@ import pandas as pd
 import scanpy as sc
 from scipy import sparse
 from sklearn import preprocessing
-
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.nn import init
 
 def label_encoder(adata, cell_type_key, encode_attr):
     le = preprocessing.LabelEncoder()
@@ -14,7 +17,7 @@ def label_encoder(adata, cell_type_key, encode_attr):
     labels_onehot = le_OneHot.fit_transform(labels)
 
     return labels_onehot[len(encode_attr):, ]
-
+    # return labels[len(encode_attr):, ]
 
 def load_anndata(path, condition_key, condition, cell_type_key, prediction_type=None, out_sample_prediction=False):
     adata = sc.read(path)
@@ -45,3 +48,6 @@ def load_anndata(path, condition_key, condition, cell_type_key, prediction_type=
     case_celltype_ohe_pd = adata_celltype_ohe_pd.loc[case_pd.index, :]
 
     return control_pd, control_celltype_ohe_pd, case_pd, case_celltype_ohe_pd
+
+
+
